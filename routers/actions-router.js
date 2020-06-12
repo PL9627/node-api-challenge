@@ -34,7 +34,17 @@ router.post("/", (req, res, next) => {
 })
 
 router.put("/:id", (req, res, next) => {
+    if (!req.body) {
+        res.status(400).json({
+            message: "missing data in the body"
+        })
+    }
 
+    actions.update(req.params.id, req.body)
+    .then(action => {
+        res.status(200).json(action)
+    })
+    .catch(err => next(err))
 })
 
 router.delete("/:id", (req, res, next) => {
