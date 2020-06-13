@@ -33,6 +33,22 @@ router.get("/:id", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.get("/:id/actions", (req, res, next) => {
+  projects
+    .getProjectActions(req.params.id)
+    .then((project) => {
+      if (project) {
+        res.status(200).json(project);
+      } else {
+        res.status(404).json({
+          message:
+            "Could not retrieve the actions of the project with the specified ID",
+        });
+      }
+    })
+    .catch((err) => next(err));
+});
+
 router.post("/", (req, res, next) => {
   if (!req.body) {
     res.status(400).json({
