@@ -48,8 +48,40 @@ router.post("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.put("/:id", (req, res, next) => {});
+router.put("/:id", (req, res, next) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "missing data in the body",
+    });
+  }
 
-router.delete("/:id", (req, res, next) => {});
+  projects
+    .update(req.params.id, req.body)
+    .then((project) => {
+      if (project) {
+        res.json(200).json(project);
+      } else {
+        res.status(404).json({
+          message: "The project with the specified ID does not exist",
+        });
+      }
+    })
+    .catch((err) => next(err));
+});
+
+router.delete("/:id", (req, res, next) => {
+  projects
+    .delete(req.params.id)
+    .then((project) => {
+      if (project) {
+        res.json(200).json(project);
+      } else {
+        res.status(404).json({
+          message: "The project with the specified ID does not exist",
+        });
+      }
+    })
+    .catch((err) => next(err));
+});
 
 module.exports = router;

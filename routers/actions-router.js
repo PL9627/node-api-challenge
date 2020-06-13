@@ -52,7 +52,7 @@ router.put("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-  router
+  actions
     .delete(req.params.id)
     .then((action) => {
       res.status(200).json(action);
