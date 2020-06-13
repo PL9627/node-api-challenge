@@ -17,6 +17,9 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 
+const actionsRouter = require("./routers/actions-router");
+const porjectsRouter = require("./routers/projects-router");
+
 const server = express();
 
 const port = 3000;
@@ -24,6 +27,8 @@ const port = 3000;
 server.use(express.json());
 server.use(cors());
 server.use(morgan("combined"));
+server.use("/projects", porjectsRouter);
+server.use("/actions", actionsRouter);
 
 server.use((err, req, res, next) => {
   console.log(err);
@@ -33,6 +38,6 @@ server.use((err, req, res, next) => {
   });
 });
 
-server.listen(port, ()=> {
-    console.log(`Server running at http://localhost:${port}`)
-})
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
